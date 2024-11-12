@@ -145,7 +145,7 @@ start:
         else if (text[uk] == '>') {
             l += ">";
             ++uk; ++posInLine;
-            return TShiftLeft;
+            return TShiftRight;
         }
         return TGreater;
     case '<':

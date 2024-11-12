@@ -42,7 +42,7 @@ public:
 	Tree* findUp(TypeLex id); //Поиск данных в дереве, начиная от текущей вершины this до его корня вверх по связям
 	Tree* findUpOneLevel(Tree* From, TypeLex id); //Поиск элемента id вверх по дереву от текущей вершины From. Поиск осуществляется на одном уровне вложенности по левым связям
 
-	void printTree(void);
+	void printTree(Tree* from);
 
 	void setCurrent(Tree* cur); //Установить текущий узел дерева
 	Tree* getCurrent(); //Получить значение текущего узла дерева

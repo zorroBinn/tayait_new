@@ -22,11 +22,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scaner.cpp" />
     <ClCompile Include="Semant.cpp" />
+    <ClCompile Include="Syntax.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defs.h" />
     <ClInclude Include="Scaner.h" />
     <ClInclude Include="Semant.h" />
+    <ClInclude Include="Syntax.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

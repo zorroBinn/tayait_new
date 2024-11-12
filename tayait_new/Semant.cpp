@@ -1,6 +1,7 @@
 #include "Semant.h"
-#include <stdio.h>
-#include <cstring>
+#include <iostream>
+#include <string>
+using namespace std;
 #define max(a,b) a<b? b : a
 
 Tree* Tree::current;
@@ -8,7 +9,7 @@ Tree* Tree::current;
 Tree::Tree(Scaner* sc)
 {
 	n = new Node();
-	memcpy(n->id, &"<>", 3);
+	n->id = "<>";
 	n->objType = ObjEmpty;
 	n->dataType = UndefinedType;
 	parent = nullptr;
@@ -46,7 +47,7 @@ void Tree::setRight(Tree* from, Node* node)
 Tree* Tree::findUp(Tree* From, TypeLex id)
 {
 	Tree* i = From; //Текущая вершина поиска
-	while ((i != nullptr) && (memcmp(id, i->n->id, max(strlen(i->n->id), strlen(id))) != 0))
+	while ((i != nullptr) && (id != i->n->id))
 		i = i->parent; //Поднимаемся наверх по связям
 	return i;
 }
@@ -56,14 +57,18 @@ Tree* Tree::findUp(TypeLex id)
 	return findUp(this, id);
 }
 
-void Tree::printTree(void)
+void Tree::printTree(Tree* from)
 {
-	printf("Вершина с данными %s ----->", n->id);
-	if (left != nullptr) printf(" cлева данные %s", left->n->id);
-	if (right != nullptr) printf(" cправа данные %s", right->n->id);
-	printf("\n");
-	if (left != nullptr) left->printTree();
-	if (right != nullptr) right->printTree();
+	cout << "Вершина с данными: " << from->n->id << endl;
+	if (from->left != nullptr)
+		cout << "слева данные: " << from->left->n->id << " <--- ";
+	if (from->right != nullptr)
+		cout << "---> справа данные: " << from->right->n->id;
+	cout << endl;
+	if (from->left != nullptr)
+		from->left->printTree(from->left);
+	if (from->right != nullptr)
+		from->right->printTree(from->right);
 }
 
 Tree* Tree::findUpOneLevel(Tree* From, TypeLex id)
@@ -71,7 +76,7 @@ Tree* Tree::findUpOneLevel(Tree* From, TypeLex id)
 	Tree* i = From; //Текущая вершина поиска
 	while ((i->parent != nullptr) && (i->parent->right != i))
 	{
-		if (memcmp(id, i->n->id, max(strlen(i->n->id), strlen(id))) == 0) return i; //Нaшли совпадающий идентификатор
+		if (id == i->n->id) return i; //Нaшли совпадающий идентификатор
 		i = i->parent; //Поднимаемся наверх по связям
 	}
 	return nullptr;
@@ -91,7 +96,7 @@ Tree* Tree::semInclude(TypeLex id, TypeObject obj, DataType data)
 {
 	dupControl(current, id);
 	Node* b = new Node();
-	memcpy(b->id, id, strlen(id) + 1);
+	b->id = id;
 	b->objType = obj;
 	b->dataType = data;
 	current->setLeft(current, b);

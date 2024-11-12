@@ -1,0 +1,8 @@
+class b {
+int Test() { return 5; }
+}
+
+int main() {
+b c;
+int a = c.Test();
+}
