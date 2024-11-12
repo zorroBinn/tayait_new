@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tayait_new", "tayait_new\tayait_new.vcxproj", "{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Debug|x64.ActiveCfg = Debug|x64
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Debug|x64.Build.0 = Debug|x64
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Debug|x86.ActiveCfg = Debug|Win32
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Debug|x86.Build.0 = Debug|Win32
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Release|x64.ActiveCfg = Release|x64
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Release|x64.Build.0 = Release|x64
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Release|x86.ActiveCfg = Release|Win32
+		{A9DE7402-D0F5-4CE2-B55F-10B0D7CC447C}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A41AC40D-8A46-4A17-A509-72E511503080}
+	EndGlobalSection
+EndGlobal
