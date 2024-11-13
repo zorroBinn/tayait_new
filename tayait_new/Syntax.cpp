@@ -175,16 +175,17 @@ void Syntax::O()
 	else if (t == TIdent || t == TSemicolon) {
 		if (t == TIdent) {
 			t = sc->nextLexeme(l);
+			Tree* classObject = nullptr;
 			if (lookForward(1) == TDot)
-				root->semGetClassObject(l); //Проверка через findrightleft
-			else root->semGetVarOrCO(l);
+				classObject = root->semGetClassObject(l, root->getCurrent()); //Проверка через findrightleft
+			else classObject = root->semGetVarOrCO(l, root->getCurrent());
 			while (lookForward(1) == TDot) {
 				t = sc->nextLexeme(l);
 				t = sc->nextLexeme(l);
 				if (t != TIdent) sc->error("Ожидался идентификатор");
 				if (lookForward(1) == TDot)
-					root->semGetClassObject(l);
-				else root->semGetVarOrCO(l);
+					classObject = root->semGetClassObject(l, classObject);
+				else classObject = root->semGetVarOrCO(l, classObject);
 			}
 			t = sc->nextLexeme(l);
 			if (t != TAssign) sc->error("Ожидался '='");
@@ -205,16 +206,17 @@ void Syntax::U()
 
 	t = sc->nextLexeme(l);
 	if (t != TIdent) sc->error("Ожидался идентификатор");
+	Tree* classObject = nullptr;
 	if (lookForward(1) == TDot)
-		root->semGetClassObject(l);
-	else root->semGetVarOrCO(l);
+		classObject = root->semGetClassObject(l, root->getCurrent());
+	else classObject = root->semGetVarOrCO(l, root->getCurrent());
 	while (lookForward(1) == TDot) {
 		t = sc->nextLexeme(l);
 		t = sc->nextLexeme(l);
 		if (t != TIdent) sc->error("Ожидался идентификатор");
 		if (lookForward(1) == TDot)
-			root->semGetClassObject(l);
-		else root->semGetVarOrCO(l);
+			classObject = root->semGetClassObject(l, classObject);
+		else classObject = root->semGetVarOrCO(l, classObject);
 	}
 	t = sc->nextLexeme(l);
 	if (t != TAssign) sc->error("Ожидался '='");
@@ -229,15 +231,15 @@ void Syntax::U()
 	t = sc->nextLexeme(l);
 	if (t != TIdent) sc->error("Ожидался идентификатор");
 	if (lookForward(1) == TDot)
-		root->semGetClassObject(l);
-	else root->semGetVarOrCO(l);
+		classObject = root->semGetClassObject(l, root->getCurrent());
+	else classObject = root->semGetVarOrCO(l, root->getCurrent());
 	while (lookForward(1) == TDot) {
 		t = sc->nextLexeme(l);
 		t = sc->nextLexeme(l);
 		if (t != TIdent) sc->error("Ожидался идентификатор");
 		if (lookForward(1) == TDot)
-			root->semGetClassObject(l);
-		else root->semGetVarOrCO(l);
+			classObject = root->semGetClassObject(l, classObject);
+		else classObject = root->semGetVarOrCO(l, classObject);
 	}
 	t = sc->nextLexeme(l);
 	if (t != TAssign) sc->error("Ожидался '='");
@@ -324,7 +326,7 @@ void Syntax::R()
 		return;
 	}
 	if (t == TIdent && lookForward(3) == TParenOpen && lookForward(4) == TParenClose) {
-		Tree* classObject = root->semGetClassObject(l);
+		Tree* classObject = root->semGetClassObject(l, root->getCurrent());
 		t = sc->nextLexeme(l);
 		if (t != TDot) sc->error("Ожидался '.'");
 		t = sc->nextLexeme(l);
@@ -335,16 +337,17 @@ void Syntax::R()
 	}
 	else {
 		if (t != TIdent) sc->error("Ожидался идентификатор");
+		Tree* classObject = nullptr;
 		if (lookForward(1) == TDot)
-			Tree* classObject = root->semGetClassObject(l); //Проверка через findrightleft
-		else Tree* classObject = root->semGetVarOrCO(l);
+			classObject = root->semGetClassObject(l, root->getCurrent()); //Проверка через findrightleft
+		else classObject = root->semGetVarOrCO(l, root->getCurrent());
 		while (lookForward(1) == TDot) {
 			t = sc->nextLexeme(l);
 			t = sc->nextLexeme(l);
 			if (t != TIdent) sc->error("Ожидался идентификатор");
 			if (lookForward(1) == TDot)
-				root->semGetClassObject(l);
-			else root->semGetVarOrCO(l);
+				classObject = root->semGetClassObject(l, classObject);
+			else classObject = root->semGetVarOrCO(l, classObject);
 		}
 	}
 }

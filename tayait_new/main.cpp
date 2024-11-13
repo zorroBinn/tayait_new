@@ -20,8 +20,6 @@ int main() {
 		if (type == TEnd) cout << "Синтаксических ошибок не обнаружено." << endl;
 		else scaner->error("Лишний текст в конце программы");
 
-		cout << "Конец файла" << endl;
-
 		syntax->getRoot()->printTree(syntax->getRoot());
 		delete scaner, syntax;
 	}

@@ -1,9 +1,9 @@
-class A { 
-int pole = 5;
-int method() { return 5; } 
+class A {
+int x = 5;
+int getX() { return x; }
 }
+
 int main() {
-A b;
-int c = b.method();
-int d = b.pole;
+A.getX();
 }
+

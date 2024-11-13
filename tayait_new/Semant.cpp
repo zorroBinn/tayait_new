@@ -141,15 +141,15 @@ Tree* Tree::semGetVar(TypeLex a)
 {
 	Tree* v = findUp(current, a);
 	if (v == nullptr)
-		sc->error("Идентификатор не определён.");
+		sc->error("Идентификатор не определён");
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса.");
+		sc->error("Неверное использование имени класса");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода.");
+		sc->error("Неверное использование вызова метода");
 	if (v->n->objType == ObjClassObject)
-		sc->error("Неверное использование объекта класса.");
+		sc->error("Неверное использование объекта класса");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main.");
+		sc->error("Недопустимое использование main");
 	return v;
 }
 
@@ -157,15 +157,15 @@ Tree* Tree::semGetClass(TypeLex a)
 {
 	Tree* v = findUp(current, a);
 	if (v == nullptr)
-		sc->error("Отсутствует описание класса с таким именем.");
+		sc->error("Отсутствует описание класса с таким именем");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода.");
+		sc->error("Неверное использование вызова метода");
 	if (v->n->objType == ObjVar)
 		sc->error("Неверное использование идентификатора переменной");
 	if (v->n->objType == ObjClassObject)
-		sc->error("Неверное использование объекта класса.");
+		sc->error("Неверное использование объекта класса");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main.");
+		sc->error("Недопустимое использование main");
 	return v;
 }
 
@@ -175,62 +175,69 @@ Tree* Tree::semGetMethod(TypeLex a, Tree* from)
 	if (v == nullptr) 
 	{
 		v = findRightLeft(from, a);
-			if (v == nullptr) sc->error("Отсутствует описание метода.");
+			if (v == nullptr) sc->error("Отсутствует описание метода");
 	}
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса.");
+		sc->error("Неверное использование имени класса");
 	if (v->n->objType == ObjVar)
 		sc->error("Неверное использование идентификатора переменной");
 	if (v->n->objType == ObjClassObject)
-		sc->error("Неверное использование объекта класса.");
+		sc->error("Неверное использование объекта класса");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main.");
+		sc->error("Недопустимое использование main");
 	return v;
 }
 
-Tree* Tree::semGetClassObject(TypeLex a)
+Tree* Tree::semGetClassObject(TypeLex a, Tree* from)
 {
 	Tree* v = findUp(current, a);
 	if (v == nullptr)
-		sc->error("Объект класса не определён.");
+	{
+		v = findRightLeft(from, a);
+		if (v == nullptr) sc->error("Объект класса не определён");
+	}
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса.");
+		sc->error("Неверное использование имени класса");
 	if (v->n->objType == ObjVar)
 		sc->error("Неверное использование идентификатора переменной");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода.");
+		sc->error("Неверное использование вызова метода");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main.");
+		sc->error("Недопустимое использование main");
 	return v;
 }
 
-Tree* Tree::semGetVarOrCO(TypeLex a)
+Tree* Tree::semGetVarOrCO(TypeLex a, Tree* from)
 {
 	Tree* v = findUp(current, a);
 	if (v == nullptr)
-		sc->error("Объект класса или переменная не определен(-а).");
+	{
+		v = findRightLeft(from, a);
+		if (v == nullptr) sc->error("Объект класса или переменная не определен(-а)");
+	}
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса.");
+		sc->error("Неверное использование имени класса");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода.");
+		sc->error("Неверное использование вызова метода");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main.");
+		sc->error("Недопустимое использование main");
 	return v;
 }
 
 void Tree::dupControl(Tree* Addr, TypeLex a)
 {
-	if (findUpOneLevel(Addr, a) == nullptr) return;
-	if (Addr->n->objType == ObjVar)
-		sc->error("Дублирование идентификатора переменной не допускается.");
-	else if (Addr->n->objType == ObjClass)
-		sc->error("Дублирование идентификатора класса не допускается.");
-	else if (Addr->n->objType == ObjClassMethod)
-		sc->error("Дублирование идентификатора метода класса не допускается.");
-	else if (Addr->n->objType == ObjClassObject)
-		sc->error("Дублирование идентификатора объекта класса не допускается.");
-	else if (Addr->n->objType == ObjMain)
-		sc->error("Дублирование main не допускается.");
+	Tree* v = findUpOneLevel(Addr, a);
+	if (v == nullptr) return;
+	if (v->n->objType == ObjVar)
+		sc->error("Дублирование идентификатора переменной не допускается");
+	else if (v->n->objType == ObjClass)
+		sc->error("Дублирование идентификатора класса не допускается");
+	else if (v->n->objType == ObjClassMethod)
+		sc->error("Дублирование идентификатора метода класса не допускается");
+	else if (v->n->objType == ObjClassObject)
+		sc->error("Дублирование идентификатора объекта класса не допускается");
+	else if (v->n->objType == ObjMain)
+		sc->error("Дублирование main не допускается");
 }
 
 Tree* Tree::createNewScope()
