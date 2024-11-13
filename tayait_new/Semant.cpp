@@ -82,6 +82,15 @@ Tree* Tree::findUpOneLevel(Tree* From, TypeLex id)
 	return nullptr;
 }
 
+Tree* Tree::findRightLeft(Tree* From, TypeLex id)
+{
+	Tree* i = From->right; //Текущая вершина поиска
+	while ((i != nullptr) && (id != i->n->id))
+		i == i->left;
+	//Обходим только соседей по левым связям
+	return i;
+}
+
 void Tree::setCurrent(Tree* cur)
 {
 	current = cur;

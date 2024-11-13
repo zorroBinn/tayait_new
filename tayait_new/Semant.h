@@ -41,6 +41,7 @@ public:
 	Tree* findUp(Tree* From, TypeLex id); //Поиск данных в дереве от заданной вершины From до его корня вверх по связям
 	Tree* findUp(TypeLex id); //Поиск данных в дереве, начиная от текущей вершины this до его корня вверх по связям
 	Tree* findUpOneLevel(Tree* From, TypeLex id); //Поиск элемента id вверх по дереву от текущей вершины From. Поиск осуществляется на одном уровне вложенности по левым связям
+	Tree* findRightLeft(Tree* From, TypeLex id); //Поиск прямых потомков заданной вершины From
 
 	void printTree(Tree* from);
 
