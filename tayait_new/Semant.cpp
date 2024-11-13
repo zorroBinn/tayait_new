@@ -61,9 +61,9 @@ void Tree::printTree(Tree* from)
 {
 	cout << "Вершина с данными: " << from->n->id << endl;
 	if (from->left != nullptr)
-		cout << "слева данные: " << from->left->n->id << " <--- ";
+		cout << "слева данные: " << from->left->n->id << " <----- ";
 	if (from->right != nullptr)
-		cout << "---> справа данные: " << from->right->n->id;
+		cout << "-----> справа данные: " << from->right->n->id;
 	cout << endl;
 	if (from->left != nullptr)
 		from->left->printTree(from->left);
