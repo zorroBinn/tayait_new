@@ -29,19 +29,35 @@ Tree::Tree(Node* node, Tree* parent, Tree* left, Tree* right, Scaner* sc)
 
 Tree::~Tree()
 {
+	bool delRight = n->dataType == ObjClassObject ? false : true;
 	if (n) delete n;
 	if (left) delete left;
-	if (right) delete right;
+	if (right && delRight) delete right;
 }
 
 void Tree::setLeft(Tree* from, Node* node)
 {
 	left = new Tree(node, from, nullptr, nullptr, sc);
 }
-
+ 
 void Tree::setRight(Tree* from, Node* node)
 {
 	right = new Tree(node, from, nullptr, nullptr, sc);
+}
+
+void Tree::setRight(Tree* from, Tree* r)
+{
+	from->right = r;
+}
+
+Tree* Tree::getLeft(Tree* from)
+{
+	return from->left;
+}
+
+Tree* Tree::getRight(Tree* from)
+{
+	return from->right;
 }
 
 Tree* Tree::findUp(Tree* From, TypeLex id)
@@ -50,11 +66,6 @@ Tree* Tree::findUp(Tree* From, TypeLex id)
 	while ((i != nullptr) && (id != i->n->id))
 		i = i->parent; //Поднимаемся наверх по связям
 	return i;
-}
-
-Tree* Tree::findUp(TypeLex id)
-{
-	return findUp(this, id);
 }
 
 void Tree::printTree(Tree* from)
@@ -86,7 +97,7 @@ Tree* Tree::findRightLeft(Tree* From, TypeLex id)
 {
 	Tree* i = From->right; //Текущая вершина поиска
 	while ((i != nullptr) && (id != i->n->id))
-		i == i->left;
+		i = i->left;
 	//Обходим только соседей по левым связям
 	return i;
 }
@@ -110,6 +121,19 @@ Tree* Tree::semInclude(TypeLex id, TypeObject obj, DataType data)
 	b->dataType = data;
 	current->setLeft(current, b);
 	current = current->left;
+	return current;
+}
+
+Tree* Tree::semIncludeClassObject(TypeLex id, TypeObject obj, DataType data, Tree* r)
+{
+	dupControl(current, id);
+	Node* b = new Node();
+	b->id = id;
+	b->objType = obj;
+	b->dataType = data;
+	current->setLeft(current, b);
+	current = current->left;
+	current->setRight(current, r);
 	return current;
 }
 
@@ -145,11 +169,14 @@ Tree* Tree::semGetClass(TypeLex a)
 	return v;
 }
 
-Tree* Tree::semGetMethod(TypeLex a)
+Tree* Tree::semGetMethod(TypeLex a, Tree* from)
 {
 	Tree* v = findUp(current, a);
-	if (v == nullptr)
-		sc->error("Отсутствует описание метода.");
+	if (v == nullptr) 
+	{
+		v = findRightLeft(from, a);
+			if (v == nullptr) sc->error("Отсутствует описание метода.");
+	}
 	if (v->n->objType == ObjClass)
 		sc->error("Неверное использование имени класса.");
 	if (v->n->objType == ObjVar)

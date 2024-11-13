@@ -37,9 +37,11 @@ public:
 
 	void setLeft(Tree* from, Node* node); //Создать левого потомка от текущей вершины
 	void setRight(Tree* from, Node* node); //Создать правого потомка от текущей вершины
+	void setRight(Tree* from, Tree* r); //Указать ссылку на правого потомка от текущей вершины
+	Tree* getLeft(Tree* from);
+	Tree* getRight(Tree* from);
 
 	Tree* findUp(Tree* From, TypeLex id); //Поиск данных в дереве от заданной вершины From до его корня вверх по связям
-	Tree* findUp(TypeLex id); //Поиск данных в дереве, начиная от текущей вершины this до его корня вверх по связям
 	Tree* findUpOneLevel(Tree* From, TypeLex id); //Поиск элемента id вверх по дереву от текущей вершины From. Поиск осуществляется на одном уровне вложенности по левым связям
 	Tree* findRightLeft(Tree* From, TypeLex id); //Поиск прямых потомков заданной вершины From
 
@@ -49,9 +51,10 @@ public:
 	Tree* getCurrent(); //Получить значение текущего узла дерева
 
 	Tree* semInclude(TypeLex id, TypeObject obj, DataType data); //Занесение идентификатора в таблицу
+	Tree* semIncludeClassObject(TypeLex id, TypeObject obj, DataType data, Tree* r);
 	Tree* semGetVar(TypeLex a); //Найти в таблице переменную с именем a и вернуть ссылку на соответствующий элемент дерева
 	Tree* semGetClass(TypeLex a); //Найти в таблице класс с именем a и вернуть ссылку на соответствующий элемент дерева
-	Tree* semGetMethod(TypeLex a); //Найти в таблице метод класса с именем a и вернуть ссылку на соответствующий элемент дерева
+	Tree* semGetMethod(TypeLex a, Tree* from); //Найти в таблице метод класса с именем a и вернуть ссылку на соответствующий элемент дерева
 	Tree* semGetClassObject(TypeLex a); //Найти в таблице объект класса с именем a и вернуть ссылку на соответствующий элемент дерева
 	Tree* semGetVarOrCO(TypeLex a); //Найти в таблице переменную или объект класса с именем a и вернуть ссылку на соответствующий элемент дерева
 	void dupControl(Tree* Addr, TypeLex a); //Проверка идентификатора а на повторное описание внутри блока

@@ -2,7 +2,7 @@
 
 Syntax::~Syntax()
 {
-	root->~Tree();
+	delete root;
 }
 
 void Syntax::S()
@@ -116,17 +116,22 @@ void Syntax::Z()
 	int t;
 	t = sc->nextLexeme(l);
 	if (t != TBool && t != TInt && t != TDouble && (t != TIdent || lookForward(1) != TIdent)) sc->error("Ожидался тип");
-	if (t == TIdent) root->semGetClass(l);
+	Tree* classPoint = nullptr;
+	if (t == TIdent) {
+		classPoint = root->semGetClass(l);
+		classPoint = classPoint->getLeft(classPoint);
+		classPoint = classPoint->getRight(classPoint);
+	}
 	DataType type = root->getDatatypeFromTypeLex(l);
 	do
 	{
 		t = sc->nextLexeme(l);
 		if (t != TIdent) sc->error("Ожидался идентификатор");
-		if (type != UndefinedType) { //Справа ссылку на поддерево класса
+		if (type != UndefinedType)
 			root->semInclude(l, ObjVar, type);
-
+		else { //Справа ссылку на поддерево класса
+			if (classPoint != nullptr) root->semIncludeClassObject(l, ObjClassObject, type, classPoint);
 		}
-		else root->semInclude(l, ObjClassObject, type);
 		t = lookForward(1);
 		if (t == TAssign) {
 			t = sc->nextLexeme(l);
@@ -319,20 +324,20 @@ void Syntax::R()
 		return;
 	}
 	if (t == TIdent && lookForward(3) == TParenOpen && lookForward(4) == TParenClose) {
-		root->semGetClassObject(l); //Проверка через findrightleft
+		Tree* classObject = root->semGetClassObject(l);
 		t = sc->nextLexeme(l);
 		if (t != TDot) sc->error("Ожидался '.'");
 		t = sc->nextLexeme(l);
 		if (t != TIdent) sc->error("Ожидался идентификатор");
-		root->semGetMethod(l); //Проверка через findrightleft
+		root->semGetMethod(l, classObject); //Проверка через findrightleft
 		t = sc->nextLexeme(l);
 		t = sc->nextLexeme(l);
 	}
 	else {
 		if (t != TIdent) sc->error("Ожидался идентификатор");
 		if (lookForward(1) == TDot)
-			root->semGetClassObject(l); //Проверка через findrightleft
-		else root->semGetVarOrCO(l);
+			Tree* classObject = root->semGetClassObject(l); //Проверка через findrightleft
+		else Tree* classObject = root->semGetVarOrCO(l);
 		while (lookForward(1) == TDot) {
 			t = sc->nextLexeme(l);
 			t = sc->nextLexeme(l);

@@ -1,8 +1,9 @@
-class b {
-int Test() { return 5; }
+class A { 
+int pole = 5;
+int method() { return 5; } 
 }
-
 int main() {
-b c;
-int a = c.Test();
+A b;
+int c = b.method();
+int d = b.pole;
 }

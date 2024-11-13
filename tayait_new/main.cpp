@@ -23,13 +23,11 @@ int main() {
 		cout << "Конец файла" << endl;
 
 		syntax->getRoot()->printTree(syntax->getRoot());
-		delete scaner;
-		syntax->~Syntax();
+		delete scaner, syntax;
 	}
 	catch (const runtime_error& e)
 	{
 		cerr << "Программа завершена из-за ошибки." << endl;
-		delete scaner;
-		syntax->~Syntax();
+		delete scaner, syntax;
 	}
 }
