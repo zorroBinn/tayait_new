@@ -11,7 +11,7 @@ Tree::Tree(Scaner* sc)
 	n = new Node();
 	n->id = "<>";
 	n->objType = ObjEmpty;
-	n->dataType = UndefinedType;
+	n->data.dataType = UndefinedType; //
 	parent = nullptr;
 	left = nullptr;
 	right = nullptr;
@@ -29,7 +29,7 @@ Tree::Tree(Node* node, Tree* parent, Tree* left, Tree* right, Scaner* sc)
 
 Tree::~Tree()
 {
-	bool delRight = n->dataType == ObjClassObject ? false : true;
+	bool delRight = n->data.dataType == ObjClassObject ? false : true; //
 	if (n) delete n;
 	if (left) delete left;
 	if (right && delRight) delete right;
@@ -118,7 +118,7 @@ Tree* Tree::semInclude(TypeLex id, TypeObject obj, DataType data)
 	Node* b = new Node();
 	b->id = id;
 	b->objType = obj;
-	b->dataType = data;
+	b->data.dataType = data; //
 	current->setLeft(current, b);
 	current = current->left;
 	return current;
@@ -130,7 +130,7 @@ Tree* Tree::semIncludeClassObject(TypeLex id, TypeObject obj, DataType data, Tre
 	Node* b = new Node();
 	b->id = id;
 	b->objType = obj;
-	b->dataType = data;
+	b->data.dataType = data; //
 	current->setLeft(current, b);
 	current = current->left;
 	current->setRight(current, r);

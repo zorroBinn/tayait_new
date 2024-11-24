@@ -1,9 +1,5 @@
-class A {
-int x = 5;
-int getX() { return x; }
-}
-
 int main() {
-A.getX();
+int a = 0;
+bool b = true;
+a = a + b;
 }
-

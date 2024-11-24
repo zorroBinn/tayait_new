@@ -17,10 +17,20 @@ enum DataType {
 	BoolType
 };
 
+union DataValue {
+	int dataInt;
+	bool dataBool;
+};
+
+struct Data {
+	DataType dataType;
+	DataValue dataValue;
+};
+
 struct Node {
 	TypeLex id; //Идентификатор объекта
 	TypeObject objType; //Тип объекта
-	DataType dataType; //Тип данных
+	Data data; //Тип данных и значение
 };
 
 class Tree {
