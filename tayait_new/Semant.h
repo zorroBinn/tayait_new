@@ -57,7 +57,7 @@ public:
 	Tree* findUpOneLevel(Tree* From, TypeLex id); //Поиск элемента id вверх по дереву от текущей вершины From. Поиск осуществляется на одном уровне вложенности по левым связям
 	Tree* findRightLeft(Tree* From, TypeLex id); //Поиск прямых потомков заданной вершины From
 
-	void printTree(Tree* from);
+	void printTree(Tree* from, const std::string& prefix = "", bool isLeft = true);
 
 	void setCurrent(Tree* cur); //Установить текущий узел дерева
 	Tree* getCurrent(); //Получить значение текущего узла дерева

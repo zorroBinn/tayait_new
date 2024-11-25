@@ -1,4 +1,4 @@
-#include "Semant.h"
+п»ї#include "Semant.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -78,43 +78,54 @@ Tree* Tree::getRight(Tree* from)
 
 Tree* Tree::findUp(Tree* From, TypeLex id)
 {
-	Tree* i = From; //Текущая вершина поиска
+	Tree* i = From; //РўРµРєСѓС‰Р°СЏ РІРµСЂС€РёРЅР° РїРѕРёСЃРєР°
 	while ((i != nullptr) && (id != i->n->id))
-		i = i->parent; //Поднимаемся наверх по связям
+		i = i->parent; //РџРѕРґРЅРёРјР°РµРјСЃСЏ РЅР°РІРµСЂС… РїРѕ СЃРІСЏР·СЏРј
 	return i;
 }
 
-void Tree::printTree(Tree* from)
+void Tree::printTree(Tree* from, const std::string& prefix, bool isLeft)
 {
-	cout << "Вершина с данными: " << from->n->id << endl;
-	if (from->left != nullptr)
-		cout << "слева данные: " << from->left->n->id << " <----- ";
-	if (from->right != nullptr)
-		cout << "-----> справа данные: " << from->right->n->id;
-	cout << endl;
-	if (from->left != nullptr)
-		from->left->printTree(from->left);
-	if (from->right != nullptr)
-		from->right->printTree(from->right);
+	if (!from) return;
+
+	cout << prefix;
+	cout << (isLeft ? "|-- " : "L_ ") << from->n->id << endl;
+
+	string newPrefix = prefix + (isLeft ? "|   " : "    ");
+
+	if (from->left || from->right) { 
+		if (from->left) {
+			printTree(from->left, newPrefix, true);
+		}
+		else {
+			cout << newPrefix << "|-- [null]" << endl;
+		}
+		if (from->right) {
+			printTree(from->right, newPrefix, false);
+		}
+		else {
+			cout << newPrefix << "L_ [null]" << endl;
+		}
+	}
 }
 
 Tree* Tree::findUpOneLevel(Tree* From, TypeLex id)
 {
-	Tree* i = From; //Текущая вершина поиска
+	Tree* i = From; //РўРµРєСѓС‰Р°СЏ РІРµСЂС€РёРЅР° РїРѕРёСЃРєР°
 	while ((i->parent != nullptr) && (i->parent->right != i))
 	{
-		if (id == i->n->id) return i; //Нaшли совпадающий идентификатор
-		i = i->parent; //Поднимаемся наверх по связям
+		if (id == i->n->id) return i; //РќaС€Р»Рё СЃРѕРІРїР°РґР°СЋС‰РёР№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
+		i = i->parent; //РџРѕРґРЅРёРјР°РµРјСЃСЏ РЅР°РІРµСЂС… РїРѕ СЃРІСЏР·СЏРј
 	}
 	return nullptr;
 }
 
 Tree* Tree::findRightLeft(Tree* From, TypeLex id)
 {
-	Tree* i = From->right; //Текущая вершина поиска
+	Tree* i = From->right; //РўРµРєСѓС‰Р°СЏ РІРµСЂС€РёРЅР° РїРѕРёСЃРєР°
 	while ((i != nullptr) && (id != i->n->id))
 		i = i->left;
-	//Обходим только соседей по левым связям
+	//РћР±С…РѕРґРёРј С‚РѕР»СЊРєРѕ СЃРѕСЃРµРґРµР№ РїРѕ Р»РµРІС‹Рј СЃРІСЏР·СЏРј
 	return i;
 }
 
@@ -157,15 +168,15 @@ Tree* Tree::semGetVar(TypeLex a)
 {
 	Tree* v = findUp(current, a);
 	if (v == nullptr)
-		sc->error("Идентификатор не определён");
+		sc->error("РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РЅРµ РѕРїСЂРµРґРµР»С‘РЅ");
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРјРµРЅРё РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІС‹Р·РѕРІР° РјРµС‚РѕРґР°");
 	if (v->n->objType == ObjClassObject)
-		sc->error("Неверное использование объекта класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕР±СЉРµРєС‚Р° РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main");
+		sc->error("РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ main");
 	return v;
 }
 
@@ -173,15 +184,15 @@ Tree* Tree::semGetClass(TypeLex a)
 {
 	Tree* v = findUp(current, a);
 	if (v == nullptr)
-		sc->error("Отсутствует описание класса с таким именем");
+		sc->error("РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РѕРїРёСЃР°РЅРёРµ РєР»Р°СЃСЃР° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІС‹Р·РѕРІР° РјРµС‚РѕРґР°");
 	if (v->n->objType == ObjVar)
-		sc->error("Неверное использование идентификатора переменной");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РїРµСЂРµРјРµРЅРЅРѕР№");
 	if (v->n->objType == ObjClassObject)
-		sc->error("Неверное использование объекта класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕР±СЉРµРєС‚Р° РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main");
+		sc->error("РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ main");
 	return v;
 }
 
@@ -191,16 +202,16 @@ Tree* Tree::semGetMethod(TypeLex a, Tree* from)
 	if (v == nullptr) 
 	{
 		v = findRightLeft(from, a);
-			if (v == nullptr) sc->error("Отсутствует описание метода");
+			if (v == nullptr) sc->error("РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РѕРїРёСЃР°РЅРёРµ РјРµС‚РѕРґР°");
 	}
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРјРµРЅРё РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjVar)
-		sc->error("Неверное использование идентификатора переменной");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РїРµСЂРµРјРµРЅРЅРѕР№");
 	if (v->n->objType == ObjClassObject)
-		sc->error("Неверное использование объекта класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕР±СЉРµРєС‚Р° РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main");
+		sc->error("РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ main");
 	return v;
 }
 
@@ -210,16 +221,16 @@ Tree* Tree::semGetClassObject(TypeLex a, Tree* from)
 	if (v == nullptr)
 	{
 		v = findRightLeft(from, a);
-		if (v == nullptr) sc->error("Объект класса не определён");
+		if (v == nullptr) sc->error("РћР±СЉРµРєС‚ РєР»Р°СЃСЃР° РЅРµ РѕРїСЂРµРґРµР»С‘РЅ");
 	}
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРјРµРЅРё РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjVar)
-		sc->error("Неверное использование идентификатора переменной");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РїРµСЂРµРјРµРЅРЅРѕР№");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІС‹Р·РѕРІР° РјРµС‚РѕРґР°");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main");
+		sc->error("РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ main");
 	return v;
 }
 
@@ -229,14 +240,14 @@ Tree* Tree::semGetVarOrCO(TypeLex a, Tree* from)
 	if (v == nullptr)
 	{
 		v = findRightLeft(from, a);
-		if (v == nullptr) sc->error("Объект класса или переменная не определен(-а)");
+		if (v == nullptr) sc->error("РћР±СЉРµРєС‚ РєР»Р°СЃСЃР° РёР»Рё РїРµСЂРµРјРµРЅРЅР°СЏ РЅРµ РѕРїСЂРµРґРµР»РµРЅ(-Р°)");
 	}
 	if (v->n->objType == ObjClass)
-		sc->error("Неверное использование имени класса");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРјРµРЅРё РєР»Р°СЃСЃР°");
 	if (v->n->objType == ObjClassMethod)
-		sc->error("Неверное использование вызова метода");
+		sc->error("РќРµРІРµСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІС‹Р·РѕРІР° РјРµС‚РѕРґР°");
 	if (v->n->objType == ObjMain)
-		sc->error("Недопустимое использование main");
+		sc->error("РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ main");
 	return v;
 }
 
@@ -245,15 +256,15 @@ void Tree::dupControl(Tree* Addr, TypeLex a)
 	Tree* v = findUpOneLevel(Addr, a);
 	if (v == nullptr) return;
 	if (v->n->objType == ObjVar)
-		sc->error("Дублирование идентификатора переменной не допускается");
+		sc->error("Р”СѓР±Р»РёСЂРѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РїРµСЂРµРјРµРЅРЅРѕР№ РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ");
 	else if (v->n->objType == ObjClass)
-		sc->error("Дублирование идентификатора класса не допускается");
+		sc->error("Р”СѓР±Р»РёСЂРѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РєР»Р°СЃСЃР° РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ");
 	else if (v->n->objType == ObjClassMethod)
-		sc->error("Дублирование идентификатора метода класса не допускается");
+		sc->error("Р”СѓР±Р»РёСЂРѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РјРµС‚РѕРґР° РєР»Р°СЃСЃР° РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ");
 	else if (v->n->objType == ObjClassObject)
-		sc->error("Дублирование идентификатора объекта класса не допускается");
+		sc->error("Р”СѓР±Р»РёСЂРѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РѕР±СЉРµРєС‚Р° РєР»Р°СЃСЃР° РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ");
 	else if (v->n->objType == ObjMain)
-		sc->error("Дублирование main не допускается");
+		sc->error("Р”СѓР±Р»РёСЂРѕРІР°РЅРёРµ main РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ");
 }
 
 Tree* Tree::createNewScope()
