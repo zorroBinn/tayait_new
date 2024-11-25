@@ -44,6 +44,8 @@ public:
 	Tree(Scaner* sc);
 	Tree(Node* node, Tree* parent, Tree* left, Tree* right, Scaner* sc); //Конструктор создает узел с заданными связями и данными
 	~Tree();
+	void deleteSubtree(Tree* subtreeRoot); //Удаляет узел и все его дочерние элементы
+	void removeSubtree(Tree* from); //Удаляет ближайшее поддерево от заданного узла
 
 	void setLeft(Tree* from, Node* node); //Создать левого потомка от текущей вершины
 	void setRight(Tree* from, Node* node); //Создать правого потомка от текущей вершины

@@ -29,10 +29,26 @@ Tree::Tree(Node* node, Tree* parent, Tree* left, Tree* right, Scaner* sc)
 
 Tree::~Tree()
 {
-	bool delRight = n->data.dataType == ObjClassObject ? false : true; //
+	bool delRight = n->data.dataType == ObjClassObject ? false : true;
 	if (n) delete n;
 	if (left) delete left;
 	if (right && delRight) delete right;
+}
+
+void Tree::deleteSubtree(Tree* from)
+{
+	if (!from) return;
+	deleteSubtree(from->left); from->left = nullptr;
+	deleteSubtree(from->right); from->right = nullptr;
+	delete from;
+}
+
+void Tree::removeSubtree(Tree* from)
+{
+	if (from->right) {
+		deleteSubtree(from->right);
+		from->right = nullptr;
+	}
 }
 
 void Tree::setLeft(Tree* from, Node* node)
