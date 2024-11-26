@@ -1,8 +1,5 @@
-int a = 5;
-
-int main() {
-int b;
-{int c;}
+class A {
+	int testMethod() { int b = 5; return b; }
 }
 
-int l = 2;
+int c = 5;

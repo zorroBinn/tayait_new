@@ -104,7 +104,7 @@ void Tree::printTree(Tree* from, const std::string& prefix, bool isLeft)
 			printTree(from->right, newPrefix, false);
 		}
 		else {
-			cout << newPrefix << "L_ [null]" << endl;
+			cout << newPrefix << "L [null]" << endl;
 		}
 	}
 }
