@@ -79,9 +79,7 @@ void Syntax::W()
 				if (t != TSemicolon) sc->error("Ожидался ';'");
 				t = sc->nextLexeme(l);
 				root->setCurrent(chPnt);
-				std::cout << std::endl; root->printTree(root); //Дерево до
-				root->removeSubtree(chPnt);
-				//root->printTree(root); //Дерево после
+				root->removeSubtree(chPnt); //Удаление поддерева метода класса
 				if (t != TBraceClose) sc->error("Ожидался '}'");
 			}
 			else {
@@ -108,9 +106,7 @@ void Syntax::W()
 		Tree* chPnt = root->createNewScope();
 		K();
 		root->setCurrent(chPnt);
-		std::cout << std::endl; root->printTree(root); //Дерево до
-		root->removeSubtree(chPnt);
-		//root->printTree(root); //Дерево после
+		root->removeSubtree(chPnt); //Удаление поддерева main
 		t = sc->nextLexeme(l);
 		if (t != TBraceClose) sc->error("Ожидался '}'");
 	}
@@ -175,9 +171,7 @@ void Syntax::O()
 		Tree* chPnt = root->createNewScope();
 		K();
 		root->setCurrent(chPnt);
-		std::cout << std::endl; root->printTree(root); //Дерево до
 		root->removeSubtree(chPnt); //Удаление поддерева составного оператора
-		//root->printTree(root); //Дерево после 
 		t = sc->nextLexeme(l);
 		if (t != TBraceClose) sc->error("Ожидался '}'");
 	}

@@ -1,5 +1,10 @@
-class A {
-	int testMethod() { int b = 5; return b; }
+class MyClass {
+int x = 10;
+int getX() { return x; }
 }
 
-int c = 5;
+int main() {
+int a;
+MyClass obj;
+a = obj.getX();
+}
