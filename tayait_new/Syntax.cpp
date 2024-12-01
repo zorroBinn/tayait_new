@@ -1,4 +1,7 @@
 #include "Syntax.h"
+#include <string>
+
+Data tempData;
 
 Syntax::~Syntax()
 {
@@ -129,15 +132,49 @@ void Syntax::Z()
 	{
 		t = sc->nextLexeme(l);
 		if (t != TIdent) sc->error("ќжидалс€ идентификатор");
-		if (type != UndefinedType)
-			root->semInclude(l, ObjVar, type);
+		Tree* varPnt = nullptr;
+		if (type != UndefinedType) {
+			varPnt = root->semInclude(l, ObjVar, type);
+		}
 		else { //—права ссылку на поддерево класса
 			if (classPoint != nullptr) root->semIncludeClassObject(l, ObjClassObject, type, classPoint);
 		}
 		t = lookForward(1);
 		if (t == TAssign) {
+
 			t = sc->nextLexeme(l);
 			V();
+			switch (varPnt->getDataType(varPnt))
+			{
+			case IntType:
+				switch (tempData.dataType)
+				{
+				case IntType:
+					varPnt->setIntValue(tempData.dataValue.dataInt);
+					break;
+				case BoolType:
+					varPnt->setIntValue(tempData.dataValue.dataBool == true ? 1 : 0);
+					break;
+				default:
+					break;
+				}
+				break;
+			case BoolType:
+				switch (tempData.dataType)
+				{
+				case IntType:
+					varPnt->setBoolValue(tempData.dataValue.dataInt == 0 ? false : true);
+					break;
+				case BoolType:
+					varPnt->setBoolValue(tempData.dataValue.dataBool);
+					break;
+				default:
+					break;
+				}
+				break;
+			default:
+				break;
+			}
 		}
 		t = lookForward(1);
 		if (t == TComma) t = sc->nextLexeme(l);
@@ -193,6 +230,37 @@ void Syntax::O()
 			t = sc->nextLexeme(l);
 			if (t != TAssign) sc->error("ќжидалс€ '='");
 			V();
+			switch (classObject->getDataType(classObject))
+			{
+			case IntType: 
+				switch (tempData.dataType)
+				{
+				case IntType:
+					classObject->setIntValue(tempData.dataValue.dataInt);
+					break;
+				case BoolType:
+					classObject->setIntValue(tempData.dataValue.dataBool == true ? 1 : 0);
+					break;
+				default:
+					break;
+				}
+				break;
+			case BoolType:
+				switch (tempData.dataType)
+				{
+				case IntType:
+					classObject->setBoolValue(tempData.dataValue.dataInt == 0 ? false : true);
+					break;
+				case BoolType:
+					classObject->setBoolValue(tempData.dataValue.dataBool);
+					break;
+				default:
+					break;
+				}
+				break;
+			default: 
+				break;
+			}
 		}
 		t = sc->nextLexeme(l);
 		if (t != TSemicolon) sc->error("ќжидалс€ ';'");
@@ -224,10 +292,73 @@ void Syntax::U()
 	t = sc->nextLexeme(l);
 	if (t != TAssign) sc->error("ќжидалс€ '='");
 	V();
+	switch (classObject->getDataType(classObject))
+	{
+	case IntType:
+		switch (tempData.dataType)
+		{
+		case IntType:
+			classObject->setIntValue(tempData.dataValue.dataInt);
+			break;
+		case BoolType:
+			classObject->setIntValue(tempData.dataValue.dataBool == true ? 1 : 0);
+			break;
+		default:
+			break;
+		}
+		break;
+	case BoolType:
+		switch (tempData.dataType)
+		{
+		case IntType:
+			classObject->setBoolValue(tempData.dataValue.dataInt == 0 ? false : true);
+			break;
+		case BoolType:
+			classObject->setBoolValue(tempData.dataValue.dataBool);
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
 
 	t = sc->nextLexeme(l);
 	if (t != TSemicolon) sc->error("ќжидалс€ ';'");
 	V();
+	switch (classObject->getDataType(classObject))
+	{
+	case IntType:
+		switch (tempData.dataType)
+		{
+		case IntType:
+			classObject->setIntValue(tempData.dataValue.dataInt);
+			break;
+		case BoolType:
+			classObject->setIntValue(tempData.dataValue.dataBool == true ? 1 : 0);
+			break;
+		default:
+			break;
+		}
+		break;
+	case BoolType:
+		switch (tempData.dataType)
+		{
+		case IntType:
+			classObject->setBoolValue(tempData.dataValue.dataInt == 0 ? false : true);
+			break;
+		case BoolType:
+			classObject->setBoolValue(tempData.dataValue.dataBool);
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+
 	t = sc->nextLexeme(l);
 	if (t != TSemicolon) sc->error("ќжидалс€ ';'");
 
@@ -247,6 +378,37 @@ void Syntax::U()
 	t = sc->nextLexeme(l);
 	if (t != TAssign) sc->error("ќжидалс€ '='");
 	V();
+	switch (classObject->getDataType(classObject))
+	{
+	case IntType:
+		switch (tempData.dataType)
+		{
+		case IntType:
+			classObject->setIntValue(tempData.dataValue.dataInt);
+			break;
+		case BoolType:
+			classObject->setIntValue(tempData.dataValue.dataBool == true ? 1 : 0);
+			break;
+		default:
+			break;
+		}
+		break;
+	case BoolType:
+		switch (tempData.dataType)
+		{
+		case IntType:
+			classObject->setBoolValue(tempData.dataValue.dataInt == 0 ? false : true);
+			break;
+		case BoolType:
+			classObject->setBoolValue(tempData.dataValue.dataBool);
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
 
 	t = sc->nextLexeme(l);
 	if (t != TParenClose) sc->error("ќжидалс€ ')'");
@@ -320,6 +482,10 @@ void Syntax::R()
 	TypeLex l;
 	int t = sc->nextLexeme(l);
 	if (t == TFalse || t == TTrue || t == TConstint) {
+		tempData.dataType = (t == TConstint) ? IntType : BoolType;
+		if (tempData.dataType == IntType) tempData.dataValue.dataInt = stoi(l);
+		else if (t == TFalse) tempData.dataValue.dataBool = false;
+		else if (t == TTrue) tempData.dataValue.dataBool = true;
 		return;
 	}
 	if (t == TParenOpen) {

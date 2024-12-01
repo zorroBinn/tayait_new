@@ -1,3 +1,10 @@
-class MyClass {
-int getX() { return 5; }
+int a = true;
+
+class TestClass {
+bool testBool = true;
+int testInt = 88;
 }
+
+int b = false;
+bool c = 5;
+bool d = 0;

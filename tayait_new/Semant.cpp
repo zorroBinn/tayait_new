@@ -303,7 +303,7 @@ DataType Tree::getDatatypeFromTypeLex(TypeLex a)
 	return UndefinedType;
 }
 
-void Tree::setValue(int value)
+void Tree::setIntValue(int value)
 {
 	if (n->data.dataType == IntType) {
 		n->data.dataValue.dataInt = value;
@@ -313,7 +313,7 @@ void Tree::setValue(int value)
 	}
 }
 
-void Tree::setValue(bool value)
+void Tree::setBoolValue(bool value)
 {
 	if (n->data.dataType == BoolType) {
 		n->data.dataValue.dataBool = value;
@@ -338,6 +338,11 @@ string Tree::getValueString()
 Data Tree::getData(Tree* from)
 {
 	return from->n->data;
+}
+
+DataType Tree::getDataType(Tree* from)
+{
+	return from->n->data.dataType;
 }
 
 

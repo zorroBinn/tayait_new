@@ -73,9 +73,11 @@ public:
 	Tree* createNewScope(); //Создать новую область видимости
 	DataType getDatatypeFromTypeLex(TypeLex a); //Получить тип данных лексемы
 
-	void setValue(int value);
-	void setValue(bool value);
+
+	void setIntValue(int value);
+	void setBoolValue(bool value);
 	std::string getValueString();
 	Data getData(Tree* from);
+	DataType getDataType(Tree* from);
 };
 
