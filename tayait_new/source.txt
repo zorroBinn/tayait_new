@@ -1,10 +1,20 @@
-int a = true;
+int a = 5;
+int b = 0;
+bool c = true;
+bool d = false;
 
 class TestClass {
 bool testBool = true;
 int testInt = 88;
 }
 
-int b = false;
-bool c = 5;
-bool d = 0;
+
+int aintEQ = a;
+int bintEQ = b;
+int cintEQ = c;
+int dintEQ = d;
+
+bool aboolEQ = a;
+bool bboolEQ = b;
+bool cboolEQ = c;
+bool dboolEQ = d;

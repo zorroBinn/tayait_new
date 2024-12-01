@@ -518,5 +518,9 @@ void Syntax::R()
 				classObject = root->semGetClassObject(l, classObject);
 			else classObject = root->semGetVarOrCO(l, classObject);
 		}
+		tempData.dataType = (classObject->getDataType(classObject) == IntType) ? IntType : BoolType;
+		if (tempData.dataType == IntType) tempData.dataValue.dataInt = stoi(classObject->getValueString());
+		else if (classObject->getValueString() == "false") tempData.dataValue.dataBool = false;
+		else if (classObject->getValueString() == "true") tempData.dataValue.dataBool = true;
 	}
 }
