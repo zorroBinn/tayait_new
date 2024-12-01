@@ -72,5 +72,10 @@ public:
 	void dupControl(Tree* Addr, TypeLex a); //Проверка идентификатора а на повторное описание внутри блока
 	Tree* createNewScope(); //Создать новую область видимости
 	DataType getDatatypeFromTypeLex(TypeLex a); //Получить тип данных лексемы
+
+	void setValue(int value);
+	void setValue(bool value);
+	std::string getValueString();
+	Data getData(Tree* from);
 };
 

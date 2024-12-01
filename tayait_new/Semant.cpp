@@ -88,8 +88,10 @@ void Tree::printTree(Tree* from, const std::string& prefix, bool isLeft)
 	if (!from) return;
 
 	cout << prefix;
-	cout << (isLeft ? "|-- " : "L_ ") << from->n->id << endl;
-
+	cout << (isLeft ? "|-- " : "L_ ") << from->n->id;
+	string valueStr = from->getValueString();
+	if (!valueStr.empty() && valueStr != "" && from->n->objType == ObjVar) cout << " [Value: " << valueStr << "]";
+	cout << endl;
 	string newPrefix = prefix + (isLeft ? "|   " : "    ");
 
 	if (from->left || from->right) { 
@@ -145,6 +147,21 @@ Tree* Tree::semInclude(TypeLex id, TypeObject obj, DataType data)
 	b->id = id;
 	b->objType = obj;
 	b->data.dataType = data; //
+	switch (data)
+	{
+	case UndefinedType:
+		break;
+	case IntType:
+		b->data.dataValue.dataInt = 0;
+		break;
+	case DoubleType:
+		break;
+	case BoolType:
+		b->data.dataValue.dataBool = false;
+		break;
+	default:
+		break;
+	}
 	current->setLeft(current, b);
 	current = current->left;
 	return current;
@@ -285,4 +302,42 @@ DataType Tree::getDatatypeFromTypeLex(TypeLex a)
 	if (a == "double") return DoubleType;
 	return UndefinedType;
 }
+
+void Tree::setValue(int value)
+{
+	if (n->data.dataType == IntType) {
+		n->data.dataValue.dataInt = value;
+	}
+	else {
+		sc->error("Несоответствие типов: ожидался int");
+	}
+}
+
+void Tree::setValue(bool value)
+{
+	if (n->data.dataType == BoolType) {
+		n->data.dataValue.dataBool = value;
+	}
+	else {
+		sc->error("Несоответствие типов: ожидался bool");
+	}
+}
+
+string Tree::getValueString()
+{
+	switch (n->data.dataType) {
+	case IntType:
+		return to_string(n->data.dataValue.dataInt);
+	case BoolType:
+		return n->data.dataValue.dataBool ? "true" : "false";
+	default:
+		return "";
+	}
+}
+
+Data Tree::getData(Tree* from)
+{
+	return from->n->data;
+}
+
 
