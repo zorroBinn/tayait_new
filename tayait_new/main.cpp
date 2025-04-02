@@ -21,11 +21,13 @@ int main() {
 		else scaner->error("Лишний текст в конце программы");
 
 		syntax->getRoot()->printTree(syntax->getRoot());
-		delete scaner, syntax;
+		delete scaner;
+		delete syntax;
 	}
 	catch (const runtime_error& e)
 	{
 		cerr << "Программа завершена из-за ошибки." << endl;
-		delete scaner, syntax;
+		delete scaner;
+		delete syntax;
 	}
 }
